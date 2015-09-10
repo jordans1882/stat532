@@ -18,6 +18,10 @@
 ## Require Packages
 require(xtable)
 
+
+##1
+
+
 @
 { \flushright Jordan Schupbach \\
 STAT 532\\
@@ -26,6 +30,9 @@ Homework \# 2\\
 
 \begin{enumerate}
 \item 
+\begin{enumerate}[label=(\alph*)]
+\item
+\end{enumerate}
 \end{enumerate}
 \newpage
 \section*{R-Code}

@@ -3,6 +3,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \usepackage [margin=1in, paperwidth=8.5in, paperheight=11in]{geometry}
+\usepackage[autostyle]{csquotes}
 
 \newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
 \newcommand{\bfX}{\mbox{\boldmath $X$}}
@@ -44,6 +45,55 @@ plot(x, dbeta(x,10,10), type = "l",
      main = expression(paste(alpha," = ", beta," = 10")),
      ylab = "P(X = x)")  
 
+##7
+x <- seq(0,4, length = 200)
+
+# alpha = beta = .5
+plot(x, dgamma(x,.5,.5), type = "l", 
+     main = expression(paste(alpha," = ", beta," = .5")),
+     ylab = "P(X = x)") 
+
+# alpha = beta = 1
+plot(x, dgamma(x,1,1), type = "l", 
+     main = expression(paste(alpha," = ", beta," = 1")),
+     ylab = "P(X = x)")  
+
+# alpha = beta = 2
+plot(x, dgamma(x,2,2), type = "l", 
+     main = expression(paste(alpha," = ", beta," = 2")),
+     ylab = "P(X = x)")  
+
+# alpha = beta = 10
+plot(x, dgamma(x,10,10), type = "l", 
+     main = expression(paste(alpha," = ", beta," = 10")),
+     ylab = "P(X = x)")  
+
+## 8
+
+#a
+
+#doc a
+(.92)*(.05)/((.92)*(.05) + (.08)*(.95))
+
+#b
+
+x <- seq(0,1, length = 200)
+
+#Doctor 1
+
+# alpha = beta = .5
+plot(x, dbeta(x,.1,5), type = "l", 
+     main = expression(paste(alpha," = .03,    ", beta," = 2")),
+     ylab = "P(X = x)") 
+prior_a <- dbeta(x, .1, 1.65)
+doc_a_post <- ((.92)*prior_a)/((.92)*prior_a + (.08)*(1 - prior_a))
+doc_a_post[1] = 0
+plot(x, doc_a_post, type = "l", 
+     main = expression(paste(alpha," = .03,    ", beta," = 2")),
+     ylab = "P(X = x)")
+
+mean(sample(x, size = 10000, replace = TRUE, prob = doc_a_post))
+
 
 ## 16 
 
@@ -60,13 +110,22 @@ Homework \# 2\\
 
 \begin{enumerate}
 \item 
-\begin{enumerate}[label=(\alph*)]
-\item
+\begin{itemize}
+\item Many books define probabilities using the axioms of probabilities (sometimes stated as Kolmogorov's Axioms). In 'Statistical Inference' by Casella and Berger, the authors introduce probabilities with the following definition.\\
+
+Given a sample space $S$ and an associated sigma algebra $\mathcal{B}$, a \emph{probability function} is a function $P$ with domain $\mathcal{B}$ that satisfies
+\begin{enumerate}[label= {\bf \arabic*. }]
+\item $P(A) \geq 0$ for all $A \in \mathcal{B}.$
+\item $P(S) = 1.$
+\item If $A_1, A_2, \dots \in \mathcal{B}$ are pairwise disjoint, then $P(\cup_{i=1}^{\infty} A_i ) = \sum_{i=1}^{\infty} P(A_i).$
 \end{enumerate}
-\item The frequentist criticism of the likelihood principle goes as follows. All of the information regarding the parameter is contained in the likelihood. Thus, two completely different experiments could yield the same inference about a parameter despite having different study designs, so long as both have the same likelihood. To illustrate, consider two experiments of flipping a coin, where the researcher's parameter of interest is $p$, the probability that a single coin flip will result in a ''heads''. In one experiment, call it $E_1$, we flip a coin 20 times and record the number of heads. In the other experiment, $E_2$, we record the number of tails until the seventh head. We have $E_1$ associated with the family of $binomial(20,p)$ pmfs and $E_2$ associated with the family of $nbinom(7,p)$ pmfs. Now, consider two sample points $x_1 = 7$ (7 out of 20 heads in $E_1$) and $x_2 = 13$ (the 7th head occurs on the 20th coin flip in $E_2$). We have the following likelihood functions for each experiment
-$$L(p|x_1=7) = {20 \choose 7} p^7 (1-p)^{13} \; \text{for } E_1$$
+In the book 'Bayesian Data Analysis (3rd Edition)' by Gelman et al., the authors write this same definition in somewhat simpler terms: \enquote{the mathematical definition of probability: that probabilities are numerical quantities, defined on a set of 'outcomes,' that are nonnegative, additive over mutually exclusive quantities, and sum to 1 over all possible mutually exclusive outcomes.}
+\item The word 'probability' has shared many meanings over the course of history, and its specific meaning should be made in the context of when it was said and by whom. Uses of the word originate from two separate goals. One, in describing \emph{uncertainty}, and the other in the process of \emph{induction}. Prior to about 1700, probability was limited to describing the cogency of a declaration. After this, the mathematical definition emerged out of the gambling world and eventually became the dominant use of the word. To further convolute the definition, divisions within the discipline of statistics use the word in different ways. For instance, frequentists restrict its usage to describing a long-run frequency, whereas Bayesians and Likelihoodists accept its usage as a measure of certainty for a single outcome.
+\end{itemize} 
+\item One criticism of the likelihood principle is that it doesn't take into account experimental design. All of the information regarding the parameter is contained in the likelihood. Thus, two completely different experiments could yield the same inference about a parameter despite having different study designs, so long as both have the same likelihood. To illustrate, consider two experiments of flipping a coin, where the researcher's parameter of interest is $p$, the probability that a single coin flip will result in a ''heads''. In one experiment, call it $E_1$, we flip a coin 12 times and record the number of heads. In the other experiment, $E_2$, we record the number of tails until the third head. We have $E_1$ associated with the family of $binomial(12,p)$ pmfs and $E_2$ associated with the family of $nbinom(3,p)$ pmfs. Now, consider two sample points $x_1 = 3$ (3 out of 12 heads in $E_1$) and $x_2 = 12$ (the third head occurs on the 12th coin flip in $E_2$). We have the following likelihood functions for each experiment
+$$L(p|x_1=12) = {12 \choose 3} p^3 (1-p)^{12} \; \text{for } E_1$$
 and
-$$L(p|x_2=13) = {19 \choose 6} p^7 (1-p)^{13} \; \text{for } E_2$$
+$$L(p|x_2=13) = {11 \choose 2} p^3 (1-p)^{12} \; \text{for } E_2$$
 
 Before continuing, we will state the formal likelihood principle:\\
 
@@ -77,14 +136,33 @@ Then,
 \[Ev(E_1, \bfx_1^*) = Ev(E_2, \bfx_2^*)\]
 where $Ev(E, \bfx)$ stands for the \emph{evidence about $\theta$ arising from $E$ and $\bfx$}.\\
 
-That is, the formal likelihood principle states that the evidence about $p$ from both experiments with their respective samples should be equal since their likelihoods are proportional.\\
+That is, the formal likelihood principle states that the evidence about $p$ from both experiments with their respective samples should be equal since their likelihoods are proportional. In fact, the MLE in either case is $\hat{p} = \dfrac{3}{12} = .25$.  Suppose the following mixed experiment. A researcher has his colleague flip a coin and carry out $E_1$ if he flips a heads and carry out $E_2$ if he flips a tails. The researcher, unknowing of which experiment was conducted, receives the data of 3 heads out of 12 flips from his colleague. In either case, the researcher concludes that the probability of getting a heads on a single coin flip is .25, however, he does not know whether $3$ or $12$ was the fixed value. The former is an illustration of the formal sufficiency principle and the conditionality principle; which, by Birnbaum's theoerem, is both necessary and sufficient for the formal likelihood principle.\\
 
 Now, let us consider testing the null hypothesis $H_0: p = .5$ versus the alternative $H_a: p < .5$. Given that the null is true, the probability of observing 7 or fewer heads in $E_1$ is 
-\[ \left ( {20 \choose 20} + {20 \choose 19} +  {20 \choose 18} +  {20 \choose 17} +  {20 \choose 16} +  {20 \choose 15} +  {20 \choose 14} + {20 \choose 13} \right) \left ( \frac{1}{2} \right )^{20} \]
+\begin{align*}
+P(X_1 \leq 3 | p = .5, n = 12) &= \left ( {12 \choose 12} + {12 \choose 11} +  {12 \choose 10} +  {12 \choose 9}  \right) \left ( \frac{1}{2} \right )^{12} \\
+&= \dfrac{299}{4096} \\
+&\approx .073
+\end{align*}
+In $E_2$, we have the probability of needing to conduct 12 or more experiments is
+\begin{align*}
+P(X_2 \geq 12 | p = .5, r = 3) &= 1 - P(X_2 \leq 12 | p = .5, r = 3)\\
+&= 1 - \left ( {10 \choose 2} \left ( \dfrac{1}{2} \right)^{11} + {9 \choose 2} \left ( \dfrac{1}{2} \right)^{10} + \dots + {2 \choose 2} \left ( \dfrac{1}{2} \right)^3  \right )\\
+&= \dfrac{134}{4096}\\
+& \approx .0327
+\end{align*}
 
-\item
-\item
-\item
+These calculations are the associated p-values of each experiment. Hence, we would reject the null hypothesis in $E_1$ at the .05 confidence level and would fail to reject the null in $E_2$ if we knew which experiment was conducted. Some would say that because of this the likelihood principle is flawed as it doesn't take into account the experimental design. Likelihoodists would likely respond by saying that this simply exemplifies the flaws in significance testing. The arguments within this problem come from 2 sources. The first is in section 6.3.2 in 'Statistical Inference' by Casella and Berger and the second is in the wikipedia page for 'Likelihood.' I am uncertain as to the original source of this problem, however I would suspect that it comes from the debates between Fisher and Neyman.
+
+\item The sampling distribution is related to the likelihood function in that if we fix a sample $\bfX$, then the function of $\theta$ defined by
+\[ L(\theta | \bfx) = f(\bfx | \theta) \]
+is the likelihood function. Then, if we consider two values of $\theta$, say $\theta_1$ and $\theta_2$, and find that 
+\[ P_{\theta_1}( \bfX = \bfx) = L(\theta_1 | \bfx) > L(\theta_2 | \bfx) = P_{\theta_2}(\bfX = \bfx) \]
+we find that the value observed sample is more likely to have occured if $\theta = \theta_1$ than if $\theta = \theta_2$. Hence, if we maximize $L(\theta | \bfx)$, we find the most likely value $\theta$ given the sample $\bfx$. Thus, the likelihood function (and by extension, MLE's) is directly related to the sampling distribution through the definition of the likelihood function. 
+\item The likelihood function is a function of our parameter of interest for a given sample which tells us how 'likely' a given value of our parameter of interest is, given we observe a specific set of data. To be clear though, we do not mean 'likely' in a strict probabalistic sense. In fact, a likelihood function is not a probability function. First, the sum over all possible values of the likelihood function does not have to be 1. That is, in probabilities, when we consider an experiment, the probability of something happening is 1. If we want to make further statements about what that something is, it might be less than 1 (but greater than zero). In contrast, the sum over the likelihood function can be any nonnegative real number (it might even be infinite). 
+
+\item If we want to estimate survivability of some birds, and one week, all of the birds survived, we might conclude that the probability of all birds surviving any given week is 1. This would effectively mean that these birds are invincible, which we know not to be true. If we use Bayesian methods, situations  such as these are not a problem, as we can simply restrict our prior distribution so that it is impossible to conclude survivability of 1. As pointed out in class, our choice of prior can in some ways be related to increasing our sample size. For instance, choosing a $beta(1,1)$ prior would be equivalent to adding one survived and one died to the sample and choosing a $beta(.5,.5)$ would be equivalent to adding a half to each group. In effect, based on how likely or unlikely we think high (or low) values of survivabililty are in the samples for various sample sizes, we may want to choose an appropriate prior as to not strongly influence the inferences made from the data observed.
+
 \item We get the following plots of the beta distribution for different values of $\alpha = \beta$.
 
 <<plot6, fig.width=6, fig.height=6, fig.align='center', echo=FALSE, results='hide'>>=
@@ -112,7 +190,35 @@ plot(x, dbeta(x,10,10), type = "l",
      ylab = "P(X = x)")  
 @
 
-\item
+\item We get the following plots of the gamma distribution for different values of $\alpha = \beta$.
+
+<<plot7, fig.width=6, fig.height=6, fig.align='center', echo=FALSE, results='hide'>>=
+par(mfrow = c(2,2))
+x <- seq(0,4, length = 200)
+
+# alpha = beta = .5
+plot(x, dgamma(x,.5,.5), type = "l", 
+     main = expression(paste(alpha," = ", beta," = .5")),
+     ylab = "P(X = x)") 
+
+# alpha = beta = 1
+plot(x, dgamma(x,1,1), type = "l", 
+     main = expression(paste(alpha," = ", beta," = 1")),
+     ylab = "P(X = x)")  
+
+# alpha = beta = 2
+plot(x, dgamma(x,2,2), type = "l", 
+     main = expression(paste(alpha," = ", beta," = 2")),
+     ylab = "P(X = x)")  
+
+# alpha = beta = 10
+plot(x, dgamma(x,10,10), type = "l", 
+     main = expression(paste(alpha," = ", beta," = 10")),
+     ylab = "P(X = x)")  
+@
+
+The gamma distribution is often used for the shape parameter for a normal model with mean known and variance unknown as it is the conjugate prior for this distribution. 
+
 \item
 \begin{enumerate}[label = (\alph*)]
 \item

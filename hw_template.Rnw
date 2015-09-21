@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}  
+\usepackage{amsfonts, amsmath, amsthm, amssymb, enumitem, verbatim, graphicx}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\usepackage [margin=1in, paperwidth=8.5in, paperheight=11in]{geometry}
+
+\newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
+\newcommand{\bfX}{\mbox{\boldmath $X$}}
+\newcommand{\bfx}{\mbox{\boldmath $x$}}
+\newcommand{\bfV}{\mbox{\boldmath $V$}}
+\newcommand{\bfI}{\mbox{\boldmath $I$}}
+\newcommand{\bfy}{\mbox{\boldmath $y$}}
+\newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
+
+\begin{document}
+
+<<rcode, include=FALSE, cache=TRUE>>=
+
+
+@
+{ \flushright Jordan Schupbach \\
+STAT 532\\
+September 21, 2015 \\}
+Homework \# 3\\
+
+\begin{enumerate}
+\item 
+
+\end{enumerate}
+\newpage
+\section*{R-Code}
+\begin{verbatim}
+R-Code Here
+\end{verbatim}
+\end{document})
